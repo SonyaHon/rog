@@ -1,0 +1,35 @@
+.Settings {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.Settings_fields {
+    height: 90%;
+    overflow: auto;
+}
+.Settings_Buttons {
+    height: 10%;
+    border-top: 1px solid black;
+    background-color: white;
+    z-index: 2;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.Settings_field {
+    width: 100%;
+    border-bottom: 1px solid black;
+    display: flex;
+    align-items: center;
+    padding: 2px;
+}
+.Settings_field_label {
+    width: 200px;
+}
+.Settings_field_num {
+    width: 50%;
+}
