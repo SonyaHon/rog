@@ -27,7 +27,7 @@ class App extends Component {
         function bindEventToScreens(event) {
             window.addEventListener(event, function (e) {
                 if(self.Game._currentScreen !== null) {
-                    self._currentScreen.handleInput(event, e);
+                    self.Game._currentScreen.handleInput(event, e, self.Game);
                 }
             });
         }
@@ -35,6 +35,8 @@ class App extends Component {
         bindEventToScreens('keyup');
         bindEventToScreens('keydown');
         bindEventToScreens('keypress');
+
+        this.Game.switchScreen('startScreen');
     }
 }
 

@@ -1,4 +1,5 @@
 import ROT from 'rot-js';
+import Screens from './Screens';
 
 class Game {
     constructor(width, height) {
@@ -7,6 +8,9 @@ class Game {
 
         ROT.DEFAULT_WIDTH = width;
         ROT.DEFAULT_HEIGHT = height;
+
+        this._screens = Screens;
+
     }
 
     init(w, h) {
@@ -25,16 +29,21 @@ class Game {
 
     switchScreen(screen) {
         if(this._currentScreen !== null) {
-            this._curretnScreen.exit();
+            this._currentScreen.exit();
         }
         this._display.clear();
-        this._currentScreen = screen;
-        if (this._currentScreen !== null) {
+        if(this._screens[screen] !== undefined) {
+            this._currentScreen = this._screens[screen];
+        }
+        else {
+            throw new Error('No such screen "' + screen + '"');
+        }
+        if (this._currentScreen !== null && this._currentScreen !== undefined) {
             this._currentScreen.enter();
             this._currentScreen.render(this._display);
         }
         else {
-            throw new Error('No such screen', screen);
+            throw new Error('No such screen "' + screen + '"');
         }
     }
 }
