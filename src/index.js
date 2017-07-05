@@ -35,7 +35,10 @@ server.on('request', (req) => {
         }
 
        //TODO Write config to file
-
+        let buff = Buffer.from(JSON.stringify(newConfig));
+        fs.writeFile(path.join(__dirname, './server/config.json'), buff, function (err) {
+            console.log(err);
+        });
     }
 });
 

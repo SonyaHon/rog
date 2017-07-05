@@ -7,7 +7,7 @@ class StartScreen extends Component  {
         return(
           <div className="StartScreen">
               <div className="StartScreen__MainMenu">
-                  <Link to='/mainGame' className="StartScreen__MainMenu_Button Bordered">Play</Link>
+                  <Link to='/game' className="StartScreen__MainMenu_Button Bordered">Play</Link>
                   <Link to='/settings' className="StartScreen__MainMenu_Button Bordered">Settings</Link>
                   <button onClick={this.showModal.bind(this)} className="StartScreen__MainMenu_Button Bordered">Exit</button>
               </div>
