@@ -1,14 +1,21 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import './app.css';
 
 import Game from './game_scripts/Game';
+
+const GLYPH_HEIGHT = 15.625;
+const GLYPH_WIDTH = 10;
 
 class App extends Component {
 
     constructor(props) {
         super(props);
 
-        this.Game = new Game(80, 20);
+        let maph = Math.floor(parseInt(props.config['screen-height']) / GLYPH_HEIGHT);
+        let mapw = Math.floor(parseInt(props.config['screen-width']) / GLYPH_WIDTH);
+
+        this.Game = new Game(mapw, maph);
         this.Game.init();
     }
 
@@ -40,4 +47,10 @@ class App extends Component {
     }
 }
 
-export default App;
+function mapStateToProps(state) {
+    return {
+        config: state.config
+    }
+}
+
+export default connect(mapStateToProps)(App);

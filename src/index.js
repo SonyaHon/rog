@@ -34,7 +34,6 @@ server.on('request', (req) => {
                 newConfig[name] = val;
         }
 
-       //TODO Write config to file
         let buff = Buffer.from(JSON.stringify(newConfig));
         fs.writeFile(path.join(__dirname, './server/config.json'), buff, function (err) {
             console.log(err);
@@ -64,8 +63,8 @@ server.start(() => {
 const createWindow = () => {
     // Create the browser window.
     mainWindow = new BrowserWindow({
-        width: config['screen-width'],
-        height: config['screen-height'],
+        width: parseInt(config['screen-width']),
+        height: parseInt(config['screen-height']),
     });
 
     mainWindow.loadURL(`http://127.0.0.1:` + server.port + '/');

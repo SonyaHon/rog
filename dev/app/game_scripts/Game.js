@@ -13,37 +13,30 @@ class Game {
 
     }
 
-    init(w, h) {
-        if(arguments.length === 2)
-            this._display = new ROT.Display({
-                width: w,
-                height: h
-            });
-        else
-            this._display = new ROT.Display();
+    init() {
+        this._display = new ROT.Display({
+            width: ROT.DEFAULT_WIDTH,
+            height: ROT.DEFAULT_HEIGHT
+        });
     }
+
 
     getDisplay() {
         return this._display;
     }
 
     switchScreen(screen) {
-        if(this._currentScreen !== null) {
-            this._currentScreen.exit();
-        }
-        this._display.clear();
-        if(this._screens[screen] !== undefined) {
+        if(this._screens[screen] !== undefined && this._screens[screen] !== null) {
+            if(this._currentScreen !== null) {
+                this._currentScreen.exit();
+            }
+            this._display.clear();
             this._currentScreen = this._screens[screen];
-        }
-        else {
-            throw new Error('No such screen "' + screen + '"');
-        }
-        if (this._currentScreen !== null && this._currentScreen !== undefined) {
             this._currentScreen.enter();
             this._currentScreen.render(this._display);
         }
         else {
-            throw new Error('No such screen "' + screen + '"');
+            throw new Error('No such screen: ' + screen);
         }
     }
 }
