@@ -65,6 +65,9 @@ const createWindow = () => {
     mainWindow = new BrowserWindow({
         width: parseInt(config['screen-width']),
         height: parseInt(config['screen-height']),
+        resizable: false,
+        useContentSize: true,
+        autoHideMenuBar: true
     });
 
     mainWindow.loadURL(`http://127.0.0.1:` + server.port + '/');

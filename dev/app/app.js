@@ -1,21 +1,18 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import './app.css';
+import ROT from 'rot-js';
 
 import Game from './game_scripts/Game';
-
-const GLYPH_HEIGHT = 15.625;
-const GLYPH_WIDTH = 10;
 
 class App extends Component {
 
     constructor(props) {
         super(props);
 
-        let maph = Math.floor(parseInt(props.config['screen-height']) / GLYPH_HEIGHT);
-        let mapw = Math.floor(parseInt(props.config['screen-width']) / GLYPH_WIDTH);
-
-        this.Game = new Game(mapw, maph);
+        let dcp = new ROT.Display();
+        let size = dcp.computeSize(parseInt(props.config['screen-width']), parseInt(props.config['screen-height']));
+        this.Game = new Game(size[0], size[1]);
         this.Game.init();
     }
 
