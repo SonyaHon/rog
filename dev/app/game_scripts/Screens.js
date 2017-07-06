@@ -45,14 +45,14 @@ export default {
             console.log('entered playing screen');
 
             let map = [];
-            for(let x = 0; x < 80; x++) {
+            for(let x = 0; x < ROT.DEFAULT_WIDTH; x++) {
                 map.push([]);
-                for(let y = 0; y < 24; y++) {
+                for(let y = 0; y < ROT.DEFAULT_HEIGHT; y++) {
                     map[x].push(new Tile(null));
                 }
             }
 
-            let generator = new ROT.Map.Cellular(80, 24);
+            let generator = new ROT.Map.Cellular(ROT.DEFAULT_WIDTH, ROT.DEFAULT_HEIGHT);
             generator.randomize(0.5);
 
             for(let i = 0; i < 3; i++) {
