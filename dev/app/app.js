@@ -12,13 +12,21 @@ class App extends Component {
 
         let dcp = new ROT.Display();
         let size = dcp.computeSize(parseInt(props.config['screen-width']), parseInt(props.config['screen-height']));
-        this.Game = new Game(size[0], size[1]);
+
+        ROT.LOG_DISPLAY_WIDTH = 30;
+        ROT.STAT_DISPLAY_HEIGHT = 6;
+        ROT.LOG_DISPLAY_HEIGHT = size[1] - 6;
+        this.Game = new Game(size[0] - 30, size[1]);
         this.Game.init();
     }
 
     render() {
         return(
             <div className="App">
+                <div style={{display: 'flex', flexDirection: 'column', borderRight: 'solid 4px #333'}}>
+                    <div className="StatDisplay" ref="stats"></div>
+                    <div className="LogScreen" ref="log"></div>
+                </div>
                 <div className="Screen" ref="screen">
                 </div>
             </div>
@@ -26,7 +34,9 @@ class App extends Component {
     }
 
     componentDidMount() {
-        this.refs.screen.appendChild(this.Game.getDisplay().getContainer());
+        this.refs.screen.appendChild(this.Game.getGameDisplay().getContainer());
+        this.refs.stats.appendChild(this.Game.getStatsDisplay().getContainer());
+        this.refs.log.appendChild(this.Game.getLogDisplay().getContainer());
         let self = this;
         function bindEventToScreens(event) {
             window.addEventListener(event, function (e) {
