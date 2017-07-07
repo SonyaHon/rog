@@ -42,6 +42,8 @@ class App extends Component {
             window.addEventListener(event, function (e) {
                 if(self.Game._currentScreen !== null) {
                     self.Game._currentScreen.handleInput(event, e, self.Game);
+                    self.Game.getGameDisplay().clear();
+                    self.Game._currentScreen.render(self.Game.getGameDisplay());
                 }
             });
         }

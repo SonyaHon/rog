@@ -1,8 +1,11 @@
 import ROT from 'rot-js';
 import Screens from './Screens';
+import EventEmitter from 'events';
 
-class Game {
+class Game extends EventEmitter{
     constructor(width, height) {
+        super();
+
         this._gameDisplay = null;
         this._logDsiplay = null;
         this._statDisplay = null;
