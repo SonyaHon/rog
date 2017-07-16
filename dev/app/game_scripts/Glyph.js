@@ -16,6 +16,10 @@ class Glyph {
     get background() {
         return this._background;
     }
+
+    static isNull(glyph) {
+        return (glyph.char === ' ' && glyph.background === 'black' && glyph.foreground === 'white');
+    }
 }
 
 export default Glyph;

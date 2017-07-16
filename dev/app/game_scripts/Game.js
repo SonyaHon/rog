@@ -1,43 +1,63 @@
 import ROT from 'rot-js';
-import Screens from './Screens';
+import GlobalMap from './GlobalMap';
+import EventEmitter from 'events';
 
 class Game {
     constructor(width, height) {
-        this._display = null;
-        this._currentScreen = null;
-
         ROT.DEFAULT_WIDTH = width;
         ROT.DEFAULT_HEIGHT = height;
-
-        this._screens = Screens;
-
-    }
-
-    init() {
         this._display = new ROT.Display({
-            width: ROT.DEFAULT_WIDTH,
-            height: ROT.DEFAULT_HEIGHT
+            width: width,
+            height: height
         });
+
+        ROT._eventEmitter = new EventEmitter();
+
+        window.addEventListener('keydown', function (event) {
+            ROT._eventEmitter.emit('keydown', event.keyCode);
+        }.bind(this));
+
+        window.addEventListener('keyup', function (event) {
+            ROT._eventEmitter.emit('keyup', event.keyCode);
+        }.bind(this));
+
+        this._globalMap = new GlobalMap();
+        let startPoint = this._globalMap.getStartingLocation();
+        this._currentLocalMap = this._globalMap.getLocalMap(startPoint.x, startPoint.y);
+
+        ROT.GAME = this;
     }
 
+    drawTile(tile) {
+        this._display.draw(tile.x, tile.y, tile.glyph.char, tile.glyph.foreground, tile.glyph.background);
+    }
 
-    getDisplay() {
+    drawGlyph(x, y, glyph) {
+        this._display.draw(x, y, glyph.char, glyph.foreground, glyph.background);
+    }
+
+    renderCurrentMap() {
+        this.clear();
+        for(let x = 0; x < ROT.DEFAULT_WIDTH; x++) {
+            for(let y = 0; y < ROT.DEFAULT_HEIGHT; y++) {
+                this.drawTile(this._currentLocalMap.getTileAt(x, y));
+            }
+        }
+    }
+
+    clear() {
+        this._display.clear();
+    }
+
+    get display() {
         return this._display;
     }
 
-    switchScreen(screen) {
-        if(this._screens[screen] !== undefined && this._screens[screen] !== null) {
-            if(this._currentScreen !== null) {
-                this._currentScreen.exit();
-            }
-            this._display.clear();
-            this._currentScreen = this._screens[screen];
-            this._currentScreen.enter();
-            this._currentScreen.render(this._display);
-        }
-        else {
-            throw new Error('No such screen: ' + screen);
-        }
+    changeCurrentLocalMap(newMapX, newMapY) {
+        // save current map
+        this._globalMap.saveState(this._currentLocalMap.data);
+        // Change current map
+        this._currentLocalMap = this._globalMap.getLocalMap(newMapX, newMapY);
     }
 }
 
